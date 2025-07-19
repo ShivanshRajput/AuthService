@@ -20,7 +20,19 @@ class UserRepositary{
                 }
             })
         } catch (error) {
-            cconsole.log('Something went wrong at Repositary Layer');
+            console.log('Something went wrong at Repositary Layer');
+            throw error;
+        }
+    }
+
+    async getById(userId){
+        try {
+            const user = User.findByPk(userId, {
+                attributes: ['id' , 'email']
+            });
+            return user;
+        } catch (error) {
+            console.log('Something went wrong at Repositary Layer');
             throw error;
         }
     }
