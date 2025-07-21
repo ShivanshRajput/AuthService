@@ -27,12 +27,26 @@ class UserRepositary{
 
     async getById(userId){
         try {
-            const user = User.findByPk(userId, {
+            const user = await User.findByPk(userId, {
                 attributes: ['id' , 'email']
             });
             return user;
         } catch (error) {
             console.log('Something went wrong at Repositary Layer');
+            throw error;
+        }
+    }
+
+    async getByEmail(UserEmail){
+        try {
+            const user = User.findOne({
+                where:{
+                    email: UserEmail
+                }
+            });
+            return user;
+        } catch (error) {
+            onsole.log('Something went wrong at Repositary Layer');
             throw error;
         }
     }
