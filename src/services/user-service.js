@@ -89,6 +89,15 @@ class UserService{
         }
     }
 
+    async isAdmin(userId){
+        try {
+            return await this.userRepositary.isAdmin(userId);
+        } catch (error) {
+            console.log("Something Went wrong while fetching ADMIN status in service layer");
+            throw error;
+        }
+    }
+
 }
 
 

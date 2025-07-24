@@ -3,6 +3,7 @@ const { PORT } = require('./config/serverConfig');
 const bodyParser = require('body-parser');
 const ApiRoutes = require('./routes/index');
 const db = require('./models/index');
+// const {User , Role} = require('./models/index');
 
 const prepareAndStartSerrver = async() => {
     const app = express();
@@ -17,6 +18,10 @@ const prepareAndStartSerrver = async() => {
         if(process.env.SYNC_DB){
             db.sequelize.sync({alter:true});
         }
+
+        // const u1 = await User.findByPk(1);
+        // const r1 = await Role.findByPk(1);
+        // u1.addRole(r1);
     })
 }
 
