@@ -1,4 +1,6 @@
 const { User , Role } = require('../models/index');
+const ValidationError = require('../utils/validation-error');
+
 
 class UserRepositary{
 
@@ -7,6 +9,9 @@ class UserRepositary{
             const user = await User.create(data);
             return user;
         } catch (error) {
+            if(error.name = 'SequelizeValidationError'){
+                throw new ValidationError(error);
+            }
             console.log('Something went wrong at Repositary Layer');
             throw error;
         }

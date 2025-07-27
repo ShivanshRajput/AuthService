@@ -2,6 +2,7 @@ const UserRepositary = require('../repositary/user-repo');
 const jwt = require('jsonwebtoken');
 const { JWT_KEY } = require('../config/serverConfig');
 const bcrypt = require('bcrypt');
+const AppErrors = require('../utils/error-handler');
 
 class UserService{
     constructor() {
@@ -13,8 +14,16 @@ class UserService{
             const user = await this.userRepositary.create(data);
             return user;
         } catch (error) {
+            if(error.name == 'AppError'){
+                throw error;
+            }
             console.log('Something went wrong at Service Layer');
-            throw error;
+            throw new AppErrors(
+                'Server Error',
+                'Something Went Wrong in Service',
+                'Logical Issue Found',
+                500
+            );
         }
     }
 
