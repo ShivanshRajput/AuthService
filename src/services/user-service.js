@@ -14,16 +14,12 @@ class UserService{
             const user = await this.userRepositary.create(data);
             return user;
         } catch (error) {
-            if(error.name == 'AppError'){
+            // console.log(error.name)
+            if(error.name == 'SequelizeValidationError'){
                 throw error;
             }
             console.log('Something went wrong at Service Layer');
-            throw new AppErrors(
-                'Server Error',
-                'Something Went Wrong in Service',
-                'Logical Issue Found',
-                500
-            );
+            throw error;
         }
     }
 
@@ -47,6 +43,10 @@ class UserService{
             });
             return newJWT;
         } catch (error) {
+            // console.log(error,'5555555555555555555555555555555');
+            if(error.name == 'AttributeNotFound'){
+                throw error;
+            }
             console.log('Something went wrong in SignIn');
             throw error;
         }

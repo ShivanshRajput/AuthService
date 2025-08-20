@@ -1,4 +1,6 @@
+const { StatusCodes } = require('http-status-codes');
 const { User , Role } = require('../models/index');
+const ClientError = require('../utils/client-error');
 const ValidationError = require('../utils/validation-error');
 
 
@@ -9,7 +11,7 @@ class UserRepositary{
             const user = await User.create(data);
             return user;
         } catch (error) {
-            if(error.name = 'SequelizeValidationError'){
+            if(error.name == 'SequelizeValidationError'){
                 throw new ValidationError(error);
             }
             console.log('Something went wrong at Repositary Layer');
@@ -44,13 +46,22 @@ class UserRepositary{
 
     async getByEmail(UserEmail){
         try {
-            const user = User.findOne({
+            const user = await User.findOne({
                 where:{
                     email: UserEmail
                 }
             });
+            if(!user){
+                throw new ClientError(
+                    'AttributeNotFound',
+                    'Invalid Email sent in the request',
+                    'Email of user is not signed in, no record found',
+                    StatusCodes.NOT_FOUND
+                );
+            }
             return user;
         } catch (error) {
+            console.log(error);
             console.log('Something went wrong at Repositary Layer');
             throw error;
         }

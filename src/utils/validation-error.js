@@ -3,7 +3,7 @@ const { StatusCodes } = require('http-status-codes');
 
 class ValidationError extends AppError{
     constructor(error){
-        let errorName = error.errorName;
+        let errorName = error.name;
         let explaination = [];
         error.errors.forEach((err) => {
             explaination.push(err.message)

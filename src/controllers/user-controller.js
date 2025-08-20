@@ -15,7 +15,7 @@ const create = async (req,res) => {
             err:{}
         })
     } catch (error) {
-        console.log(error);
+        // console.log(error.name);
         return res.status(error.statusCode).json({
             data:{},
             success:false,
@@ -31,16 +31,15 @@ const signIn = async (req,res) => {
         return res.status(201).json({
             data:response,
             success:true,
-            message:'User SignedIn Successfully',
-            err:{}
+            message:'User SignedIn Successfully', 
         })
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({
+        // console.log(error);
+        return res.status(error.statusCode).json({
             data:{},
             success:false,
-            message:'User SignIn Failed',
-            err : error
+            message:error.message,
+            err : error.explaination 
         })
     }
 }
